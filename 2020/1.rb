@@ -11,9 +11,9 @@ data = <<EOT
 1456
 EOT
 
-lines = IO.readlines(ARGV[0]).map(&:chomp)
-#lines = data.chomp.split("\n")
+data = File.read(ARGV[0])
 
+lines = data.chomp.split("\n")
 numbers = lines.map(&:to_i)
 
 collected = []
