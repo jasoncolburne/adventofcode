@@ -4,12 +4,6 @@ require 'pp'
 require './screen'
 
 data = <<EOT
-EOT
-
-data = <<EOT
-EOT
-
-data = <<EOT
 abc
 
 a
@@ -43,7 +37,7 @@ lines.each do |line|
 end
 groups << current_group
 
-puts groups.map { |group| group.count }.inject(&:+)
+puts groups.map(&:count).inject(&:+)
 
 groups = []
 current_group = []
@@ -60,5 +54,4 @@ lines.each do |line|
 end
 groups << current_group
 
-puts groups.map { |group| group.count }.inject(&:+)
-
+puts groups.map(&:count).inject(&:+)
