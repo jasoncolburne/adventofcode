@@ -25,8 +25,6 @@ end)
 
 puts seat_ids.max
 
-pp seat_ids.sort.first(10)
-
 last_id = nil
 seat_ids.sort.each do |id|
   if last_id
