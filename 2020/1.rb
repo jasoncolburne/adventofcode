@@ -1,7 +1,5 @@
 #!env ruby
 
-require 'pp'
-
 data = <<EOT
 1721
 979

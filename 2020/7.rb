@@ -1,8 +1,5 @@
 #!env ruby
 
-require 'pp'
-require './screen'
-
 data = <<EOT
 light red bags contain 1 bright white bag, 2 muted yellow bags.
 dark orange bags contain 3 bright white bags, 4 muted yellow bags.
@@ -44,7 +41,7 @@ def can_hold?(target, holder, contains)
   contains[holder].keys.include?(target) || contains[holder].keys.any? { |inner| can_hold?(target, inner, contains) }
 end
 
-pp contains.keys.select { |key| can_hold?('shiny gold', key, contains) }.count
+puts contains.keys.select { |key| can_hold?('shiny gold', key, contains) }.count
 
 # this will sum all bags including the top level bag, because it's more elegant
 # just subtract one for the answer
@@ -52,4 +49,4 @@ def sum_bags(target, contains)
   1 + contains[target].map { |inner, count| count * sum_bags(inner, contains) }.inject(0, :+)
 end
 
-pp sum_bags('shiny gold', contains) - 1
+puts sum_bags('shiny gold', contains) - 1

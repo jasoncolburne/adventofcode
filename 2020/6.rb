@@ -1,8 +1,5 @@
 #!env ruby
 
-require 'pp'
-require './screen'
-
 data = <<EOT
 abc
 
