@@ -11,5 +11,5 @@ Took a more structured approach and attempted to make each source file output ex
 
 To run tests:
 ```
-2020 $ ruby tests/*_test.rb
+2020 $ ruby tests/*tests.rb
 ```
