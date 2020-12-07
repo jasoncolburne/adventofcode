@@ -40,12 +40,14 @@ lines.each do |line|
   contains[key] = values
 end
 
-def can_hold(target, holder, contains)
-  contains[holder].keys.include?(target) || contains[holder].keys.any? { |new_holder| can_hold(target, new_holder, contains) }
+def can_hold?(target, holder, contains)
+  contains[holder].keys.include?(target) || contains[holder].keys.any? { |inner| can_hold?(target, inner, contains) }
 end
 
-pp contains.keys.select { |key| can_hold('shiny gold', key, contains) }.count
+pp contains.keys.select { |key| can_hold?('shiny gold', key, contains) }.count
 
+# this will sum all bags including the top level bag, because it's more elegant
+# just subtract one for the answer
 def sum_bags(target, contains)
   1 + contains[target].map { |inner, count| count * sum_bags(inner, contains) }.inject(0, :+)
 end
