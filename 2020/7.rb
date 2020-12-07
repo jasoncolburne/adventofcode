@@ -38,7 +38,7 @@ lines.each do |line|
 end
 
 def can_hold?(target, holder, contains)
-  contains[holder].keys.include?(target) || contains[holder].keys.any? { |inner| can_hold?(target, inner, contains) }
+  contains[holder].include?(target) || contains[holder].keys.any? { |inner| can_hold?(target, inner, contains) }
 end
 
 puts contains.keys.select { |key| can_hold?('shiny gold', key, contains) }.count
