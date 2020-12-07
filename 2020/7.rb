@@ -1,4 +1,4 @@
-#!env ruby
+#!/usr/bin/env ruby
 
 data = <<EOT
 light red bags contain 1 bright white bag, 2 muted yellow bags.

@@ -1,4 +1,4 @@
-#!env ruby
+#!/usr/bin/env ruby
 
 lines = IO.readlines(ARGV[0])
 

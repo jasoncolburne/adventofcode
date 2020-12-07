@@ -1,4 +1,4 @@
-#!env ruby
+#!/usr/bin/env ruby
 
 data = <<EOT
 1-3 a: abcde

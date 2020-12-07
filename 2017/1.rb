@@ -1,4 +1,4 @@
-#!env ruby
+#!/usr/bin/env ruby
 
 data = File.read(ARGV[0]).chomp
 

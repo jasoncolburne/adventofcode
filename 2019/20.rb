@@ -1,4 +1,4 @@
-#!env ruby
+#!/usr/bin/env ruby
 
 # this solution is incomplete, never got around to solving it after i read some other solutions
 

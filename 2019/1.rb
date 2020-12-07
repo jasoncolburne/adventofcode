@@ -1,4 +1,4 @@
-#!env ruby
+#!/usr/bin/env ruby
 
 def fuel(mass, recurse = true)
   _fuel = (mass / 3).to_i - 2

@@ -1,4 +1,4 @@
-#!env ruby
+#!/usr/bin/env ruby
 
 def test_adjacent_digits_v1(value)
     last = nil
