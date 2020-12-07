@@ -8,3 +8,8 @@ Mostly complete, but many source files won't work for part 1 without some hackin
 
 ## 2020
 Took a more structured approach and attempted to make each source file output exactly two strings, the solutions for each part.
+
+To run tests:
+```
+2020 $ ruby tests/*_test.rb
+```
