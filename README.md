@@ -1,4 +1,4 @@
-# Solutions to adventofcode.com
+# Ruby Solutions to adventofcode.com
 
 ## 2015-2018
 Very few solutions here.
