@@ -34,8 +34,6 @@ class Computer
     case instruction
     when 'acc'
       @acc += parameter
-
-      # increment eip
       @eip += 1
     when 'jmp'
       @eip += parameter
@@ -57,20 +55,17 @@ until visited_instructions.include?(latest_eip = computer.step) do
 end
 puts last_acc
 
-computer = Computer.new(data)
-target_eip = computer.program.length
+def swap_instruction(line)
+  line.include?('jmp') ? line.gsub!('jmp', 'nop') : line.gsub!('nop', 'jmp')
+end
 
+target_eip = computer.program.length
 (0..(target_eip - 1)).each do |index|
   computer.acc = 0
   computer.eip = 0
   
   if computer.program[index] =~ /^(jmp|nop)/
-    case $1
-    when 'jmp'
-      computer.program[index].gsub!('jmp', 'nop')
-    when 'nop'
-      computer.program[index].gsub!('nop', 'jmp')
-    end
+    swap_instruction(computer.program[index])
   else
     next
   end
@@ -78,7 +73,6 @@ target_eip = computer.program.length
   visited_instructions = Set[0]
   until computer.eip == target_eip || visited_instructions.include?(latest_eip = computer.step) do
     visited_instructions << latest_eip
-    last_acc = computer.acc
   end
 
   if computer.eip == target_eip
@@ -86,12 +80,5 @@ target_eip = computer.program.length
     exit
   end
 
-  if computer.program[index] =~ /^(jmp|nop)/
-    case $1
-    when 'jmp'
-      computer.program[index].gsub!('jmp', 'nop')
-    when 'nop'
-      computer.program[index].gsub!('nop', 'jmp')
-    end
-  end
+  swap_instruction(computer.program[index]) if computer.program[index] =~ /^(jmp|nop)/
 end
