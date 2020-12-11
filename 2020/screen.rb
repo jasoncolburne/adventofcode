@@ -34,6 +34,12 @@ class Screen
     output(file, clear)
   end
 
+  def to_s
+    buffer = StringIO.new
+    write(buffer)
+    buffer.string
+  end
+
   def get_coordinates(value)
     @display_buffer.select { |k, v| v == value }.keys
   end
@@ -57,6 +63,10 @@ class Screen
 
   def y_values
     @display_buffer.keys.map { |coordinates| coordinates[1] }.uniq
+  end
+
+  def keys
+    @display_buffer.keys
   end
 
   private
