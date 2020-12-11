@@ -71,7 +71,7 @@ puts differences[1] * differences[3]
 def count_configurations_to_outlet(adapters, adapter, cache)
   return 1 if adapter.zero?
   return 0 unless adapters.include?(adapter)
-  cache[adapter] ||= (1..3).map { |n| count_configurations_to_outlet(adapters, adapter - n, cache) }.inject(0, :+)
+  cache[adapter] ||= (1..3).map { |n| count_configurations_to_outlet(adapters, adapter - n, cache) }.inject(&:+)
 end
 
 adapters = numbers.to_set
