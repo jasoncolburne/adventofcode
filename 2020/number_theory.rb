@@ -59,6 +59,6 @@ def chinese_remainder_theorem(mapping)
   raise "moduli not co-prime" unless co_prime?(mapping.keys)
 
   max = mapping.keys.inject(&:*)
-  series = mapping.to_a.map { |m, r| (r * max * (max/m).to_bn.mod_inverse(m) / m) }
+  series = mapping.map { |m, r| (r * max * (max/m).to_bn.mod_inverse(m) / m) }
   series.inject(&:+) % max     
 end
