@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-require './number_theory'
+require 'rubygems'
+require 'bundler/setup'
+require 'jason/math'
 
 data = <<EOT
 939
@@ -42,4 +44,4 @@ mapping = (buses.map do |bus|
   end
 end).compact.to_h
 
-puts chinese_remainder_theorem(mapping)
+puts Math.chinese_remainder_theorem(mapping)

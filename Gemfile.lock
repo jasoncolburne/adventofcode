@@ -1,0 +1,19 @@
+GIT
+  remote: https://github.com/jasoncolburne/jason-math
+  revision: a5071eecde4d0366f72f7a9d469bc753cd5e6dc5
+  branch: main
+  specs:
+    jason-math (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  jason-math!
+
+BUNDLED WITH
+   1.17.2
