@@ -35,7 +35,8 @@ mapping = (buses.map do |bus|
   when 'x'
     nil
   when /\d+/
-    [bus.to_i, bus.to_i - index]
+    bus_id = bus.to_i
+    [bus_id, (bus_id - index) % bus_id]
   else
     raise "unexpected bus"
   end
