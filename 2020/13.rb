@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'openssl'
+require './number_theory'
 
 data = <<EOT
 939
@@ -25,12 +25,6 @@ end).to_h
 minimum = departures_by_bus.values.min
 single = departures_by_bus.select { |bus, minutes| minutes == minimum }
 puts single.keys.first * (single.values.first - earliest)
-
-def chinese_remainder_theorem(mapping)
-  max = mapping.keys.inject(&:*)
-  series = mapping.to_a.map { |m, r| (r * max * (max/m).to_bn.mod_inverse(m) / m) }
-  series.inject(&:+) % max     
-end
 
 index = -1
 buses = lines.last.split(',')
