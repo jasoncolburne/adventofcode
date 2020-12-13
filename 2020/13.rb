@@ -44,4 +44,4 @@ mapping = (buses.map do |bus|
   end
 end).compact.to_h
 
-puts Math.chinese_remainder_theorem(mapping)
+puts mapping.chinese_remainder_theorem
