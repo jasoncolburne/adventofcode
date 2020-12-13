@@ -62,5 +62,3 @@ def chinese_remainder_theorem(mapping)
   series = mapping.to_a.map { |m, r| (r * max * (max/m).to_bn.mod_inverse(m) / m) }
   series.inject(&:+) % max     
 end
-  
-  
