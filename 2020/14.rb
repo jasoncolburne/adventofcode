@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'pp'
-require 'set'
-require './screen'
-
 data = <<EOT
 mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
 mem[8] = 11
