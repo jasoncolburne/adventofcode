@@ -8,32 +8,27 @@ EOT
 
 data = File.read(ARGV[0])
 
-# neighbours_3d = ->(cell) do
-#   ((cell[0] - 1)..(cell[0] + 1)).map do |x|
-#     ((cell[1] - 1)..(cell[1] + 1)).map do |y|
-#       ((cell[2] - 1)..(cell[2] + 1)).map do |z|
-#         neighbour = [x, y, z]
-#         cell == neighbour ? nil : neighbour
-#       end
-#     end
-#   end.flatten(2).compact
-# end
+$neighbours_methods = {}
 
 def neighbours(cell, dimensions = nil)
   d = dimensions || cell.count
 
-  string = ""
-  if d.zero?
-    coordinates = (0..(cell.count - 1)).map { |n| "x#{n}" }.join(", ")
-    string += "neighbour = [#{coordinates}]\n"
-    string += "neighbour == cell ? nil : neighbour\n"
-  else
-    string += "((cell[#{d - 1}] - 1)..(cell[#{d - 1}] + 1)).map do |x#{d - 1}|\n"
-    string += neighbours(cell, d - 1)
-    string += "end\n"
+  if $neighbours_methods[d].nil? || dimensions
+    string = ""
+    if d.zero?
+      coordinates = (0..(cell.count - 1)).map { |n| "x#{n}" }.join(", ")
+      string += "neighbour = [#{coordinates}]\n"
+      string += "neighbour == cell ? nil : neighbour\n"
+    else
+      string += "((cell[#{d - 1}] - 1)..(cell[#{d - 1}] + 1)).map do |x#{d - 1}|\n"
+      string += neighbours(cell, d - 1)
+      string += "end\n"
+    end
+
+    $neighbours_methods[d] = string.chomp + ".flatten(#{d - 1}).compact\n" if dimensions.nil?
   end
 
-  dimensions == nil ? eval(string.chomp + ".flatten(#{d - 1}).compact\n") : string
+  dimensions.nil? ? eval($neighbours_methods[d]) : string
 end
 
 def evolve(state, n = 6)
