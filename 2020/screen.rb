@@ -1,4 +1,6 @@
 class Screen
+  attr_reader :display_buffer
+
   def initialize(background: ' ', reverse_y: false)
     @background = background
     @reverse_y = reverse_y
@@ -67,6 +69,57 @@ class Screen
 
   def keys
     @display_buffer.keys
+  end
+
+  def edges
+    top = @display_buffer.select { |k, v| k[1] == 0 }.keys.map { |cell| @display_buffer[cell] }
+    left = @display_buffer.select { |k, v| k[0] == 0 }.keys.map { |cell| @display_buffer[cell] }
+    bottom = @display_buffer.select { |k, v| k[1] == left.count - 1 }.keys.map { |cell| @display_buffer[cell] }
+    right = @display_buffer.select { |k, v| k[0] == top.count - 1 }.keys.map { |cell| @display_buffer[cell] }
+
+    [top, right, bottom, left]
+  end
+
+  def rotate!
+    new_buffer = {}
+    x_max = @display_buffer.keys.map { |cell| cell[0] }.max
+    y_max = @display_buffer.keys.map { |cell| cell[1] }.max
+
+    (0..y_max).each do |y|
+      (0..x_max).each do |x|
+        new_buffer[[x, y]] = @display_buffer[[y_max - y, x]]
+      end
+    end
+
+    @display_buffer = new_buffer
+  end
+
+  def flip!
+    new_buffer = {}
+    x_max = @display_buffer.keys.map { |cell| cell[0] }.max
+    y_max = @display_buffer.keys.map { |cell| cell[1] }.max
+
+    (0..y_max).each do |y|
+      (0..x_max).each do |x|
+        new_buffer[[x, y]] = @display_buffer[[x, y_max - y]]
+      end
+    end
+
+    @display_buffer = new_buffer
+  end
+
+  def flop!
+    new_buffer = {}
+    x_max = @display_buffer.keys.map { |cell| cell[0] }.max
+    y_max = @display_buffer.keys.map { |cell| cell[1] }.max
+
+    (0..y_max).each do |y|
+      (0..x_max).each do |x|
+        new_buffer[[x, y]] = @display_buffer[[x_max - x, y]]
+      end
+    end
+
+    @display_buffer = new_buffer
   end
 
   private
