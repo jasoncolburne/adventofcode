@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'bundler/setup'
+require 'jason/math'
+
 data = <<EOT
 .#.
 ..#
@@ -8,38 +12,15 @@ EOT
 
 data = File.read(ARGV[0])
 
-$neighbours_methods = {}
-
-def neighbours(cell, dimensions = nil)
-  d = dimensions || cell.count
-
-  if $neighbours_methods[d].nil? || dimensions
-    string = ""
-    if d.zero?
-      coordinates = (0..(cell.count - 1)).map { |n| "x#{n}" }.join(", ")
-      string += "neighbour = [#{coordinates}]\n"
-      string += "neighbour == cell ? nil : neighbour\n"
-    else
-      string += "((cell[#{d - 1}] - 1)..(cell[#{d - 1}] + 1)).map do |x#{d - 1}|\n"
-      string += neighbours(cell, d - 1)
-      string += "end\n"
-    end
-
-    $neighbours_methods[d] = string.chomp + ".flatten(#{d - 1}).compact\n" if dimensions.nil?
-  end
-
-  dimensions.nil? ? eval($neighbours_methods[d]) : string
-end
-
 def evolve(state, n = 6)
   n.times do
     # could use a set here if memory was a concern - not sure if the uniq is overall slower than
     # the set operations would be but it probably is too. this solution still runs in a few seconds
-    to_check = state.select { |k, v| v }.keys.map { |cell| neighbours(cell) + [cell] }.flatten(1).uniq
+    to_check = state.select { |k, v| v }.keys.map { |cell| cell.neighbouring_cells + [cell] }.flatten(1).uniq
     new_state = {}
 
     to_check.each do |cell|
-      count = neighbours(cell).select { |c| state[c] }.count
+      count = cell.neighbouring_cells.select { |c| state[c] }.count
       if state[cell]
         new_state[cell] = count == 2 || count == 3 ? true : false
       else
