@@ -52,9 +52,8 @@ puts fish.count
   n.times { fish = step(fish) }
   counted_fish = count_fish(numbers, n)
   if fish.count != counted_fish
-    puts "#{fish.count} != #{counted_fish} (n = #{n})"
     pp fish
-    raise "#{fish.count} != #{counted_fish} (n = #{n})" unless fish.count == counted_fish
+    raise "#{fish.count} != #{counted_fish} (n = #{n})"
   end
 end
 
