@@ -23,7 +23,7 @@ def parse(input)
   input.map { |line| line.split(' | ').map(&:split) }
 end
 
-def count_digits(parsed_input, target_digits = [1, 4, 7, 8])
+def solve(parsed_input, target_digits = [1, 4, 7, 8])
   count = 0
   sum = 0
 
@@ -54,12 +54,10 @@ def count_digits(parsed_input, target_digits = [1, 4, 7, 8])
     bfg = length_six_pattern_sets.inject(&:&) - wires_by_segment['a']
     dg = length_five_pattern_sets.inject(&:&) - wires_by_segment['a']
 
-    cf = patterns_by_digit[1]
-    
     wires_by_segment['g'] = dg & bfg
     wires_by_segment['d'] = dg - wires_by_segment['g']
-    wires_by_segment['f'] = cf & bfg
-    wires_by_segment['c'] = cf - wires_by_segment['f']
+    wires_by_segment['f'] = patterns_by_digit[1] & bfg
+    wires_by_segment['c'] = patterns_by_digit[1] - wires_by_segment['f']
     wires_by_segment['b'] = bfg - wires_by_segment['f'] - wires_by_segment['g']
     wires_by_segment['e'] = patterns_by_digit[8] - wires_by_segment['a'] - wires_by_segment['b'] - wires_by_segment['c'] - wires_by_segment['d'] - wires_by_segment['f'] - wires_by_segment['g']
 
@@ -84,4 +82,4 @@ def count_digits(parsed_input, target_digits = [1, 4, 7, 8])
   [count, sum]
 end
 
-puts count_digits(parse(input))
+puts solve(parse(input))
