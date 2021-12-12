@@ -65,13 +65,14 @@ indicies_by_label = Hash.new do |h, k|
   h[k] = i
   i += 1
 end
-labels_by_index = {}
 
 input.each do |pair|
   origin, destination = pair.split('-')
   indicies_by_label[origin]
   indicies_by_label[destination]
 end
+
+labels_by_index = {}
 indicies_by_label.each do |k, v|
   labels_by_index[v] = k
 end
@@ -79,9 +80,9 @@ end
 graph = Graph.new(indicies_by_label.count, labels_by_index)
 
 input.each do |pair|
-  origin, destination = pair.split('-')
-  graph.add_edge(indicies_by_label[origin], indicies_by_label[destination])
-  graph.add_edge(indicies_by_label[destination], indicies_by_label[origin])
+  a, b = pair.split('-')
+  graph.add_edge(indicies_by_label[a], indicies_by_label[b])
+  graph.add_edge(indicies_by_label[b], indicies_by_label[a])
 end
 
 puts graph.count_paths(indicies_by_label['start'], indicies_by_label['end'])
