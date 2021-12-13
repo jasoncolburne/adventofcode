@@ -169,6 +169,48 @@ class Screen
     @display_buffer = new_buffer
   end
 
+  def fold_vertical!(position)
+    new_buffer = {}
+
+    x_max = x_values.max
+    y_max = y_values.max
+
+    (0..y_max).each do |y|
+      (0..(position - 1)).each do |x|
+        new_buffer[[x, y]] = @display_buffer[[x, y]] unless @display_buffer[[x, y]].nil?
+      end
+    end
+
+    (0..y_max).each do |y|
+      ((position + 1)..x_max).each do |x|
+        new_buffer[[position - (x - position), y]] = @display_buffer[[x, y]] unless @display_buffer[[x, y]].nil?
+      end
+    end
+
+    @display_buffer = new_buffer
+  end
+
+  def fold_horizontal!(position)
+    new_buffer = {}
+
+    x_max = x_values.max
+    y_max = y_values.max
+
+    (0..(position - 1)).each do |y|
+      (0..x_max).each do |x|
+        new_buffer[[x, y]] = @display_buffer[[x, y]] unless @display_buffer[[x, y]].nil?
+      end
+    end
+
+    ((position + 1)..y_max).each do |y|
+      (0..x_max).each do |x|
+        new_buffer[[x, position - (y - position)]] = @display_buffer[[x, y]] unless @display_buffer[[x, y]].nil?
+      end
+    end
+
+    @display_buffer = new_buffer
+  end
+
   private
 
   def output(file, clear = false)    
