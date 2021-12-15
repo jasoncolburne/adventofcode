@@ -24,6 +24,23 @@ class Screen
     self
   end
 
+  def fill_from_text_as_integers(text)
+    inputs = text.split('')
+    x = 0
+    y = 0
+    while (value = inputs.shift)
+      if value.chr == "\n"
+        y += 1
+        x = 0
+      else
+        @display_buffer[[x, y]] = value.to_i
+        x += 1
+      end
+    end
+
+    self
+  end
+
   def []=(coordinates, value)
     @display_buffer[coordinates] = value
   end
@@ -50,25 +67,88 @@ class Screen
     @display_buffer.select { |k, v| v =~ expression }
   end
 
-  def neighbours(coordinates)
-    x_min = x_values.min
-    x_max = x_values.max
-    y_min = y_values.min
-    y_max = y_values.max
+  def x_min
+    x_values.min
+  end
 
+  def x_max
+    x_values.max
+  end
+
+  def y_min
+    y_values.min
+  end
+
+  def y_max
+    y_values.max
+  end
+
+  def bottom_right_neighbours(coordinates)
+    coordinate_set = [
+      [coordinates[0] + 1, coordinates[1]],
+      [coordinates[0], coordinates[1] + 1],
+    ]
+
+    @display_buffer.select { |k, v| coordinate_set.include?(k) }
+  end
+
+  def aoc_five_by_five!
+    new_buffer = @display_buffer.dup
+    width = x_max + 1
+    height = y_max + 1
+
+    @display_buffer.each_pair do |key, value|
+      value = value % 9 + 1
+      new_buffer[[key[0] + width , key[1]]] = value
+      new_buffer[[key[0], key[1] + height]] = value
+
+      value = value % 9 + 1
+      new_buffer[[key[0] + width * 2 , key[1]]] = value
+      new_buffer[[key[0], key[1] + height * 2]] = value
+      new_buffer[[key[0] + width, key[1] + height]] = value
+
+      value = value % 9 + 1
+      new_buffer[[key[0] + width * 3 , key[1]]] = value
+      new_buffer[[key[0], key[1] + height * 3]] = value
+      new_buffer[[key[0] + width * 2, key[1] + height]] = value
+      new_buffer[[key[0] + width, key[1] + height * 2]] = value
+
+      value = value % 9 + 1
+      new_buffer[[key[0] + width * 4 , key[1]]] = value
+      new_buffer[[key[0], key[1] + height * 4]] = value
+      new_buffer[[key[0] + width * 2, key[1] + height * 2]] = value
+      new_buffer[[key[0] + width, key[1] + height * 3]] = value
+      new_buffer[[key[0] + width * 3, key[1] + height]] = value
+
+      value = value % 9 + 1
+      new_buffer[[key[0] + width * 4, key[1] + height]] = value
+      new_buffer[[key[0] + width, key[1] + height * 4]] = value
+      new_buffer[[key[0] + width * 3, key[1] + height * 2]] = value
+      new_buffer[[key[0] + width * 2, key[1] + height * 3]] = value
+
+      value = value % 9 + 1
+      new_buffer[[key[0] + width * 4 , key[1] + height * 2]] = value
+      new_buffer[[key[0] + width * 2, key[1] + height * 4]] = value
+      new_buffer[[key[0] + width * 3, key[1] + height * 3]] = value
+
+      value = value % 9 + 1
+      new_buffer[[key[0] + width * 4, key[1] + height * 3]] = value
+      new_buffer[[key[0] + width * 3, key[1] + height * 4]] = value
+
+      value = value % 9 + 1
+      new_buffer[[key[0] + width * 4, key[1] + height * 4]] = value
+    end
+
+    @display_buffer = new_buffer
+  end
+
+  def neighbours(coordinates)
     coordinate_set = [
       [coordinates[0] - 1, coordinates[1]],
       [coordinates[0], coordinates[1] - 1],
       [coordinates[0] + 1, coordinates[1]],
       [coordinates[0], coordinates[1] + 1],
     ]
-
-    coordinate_set.select! do |coordinates|
-      coordinates[0] <= x_max &&
-      coordinates[0] >= x_min &&
-      coordinates[1] <= y_max &&
-      coordinates[1] >= y_min
-    end
 
     @display_buffer.select { |k, v| coordinate_set.include?(k) }
   end
