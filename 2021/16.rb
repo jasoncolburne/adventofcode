@@ -15,8 +15,7 @@ data = "C0015000016115A2E0802F182340"
 data = "A0016C880162017C3686B18A3D4780"
 
 data = "C200B40A82"
-data = "04005AC33890" # this one errored out
-data = "44005843089" # here is a replacement for it
+data = "04005AC33890"
 data = "880086C3E88112"
 data = "CE00C43D881120"
 data = "D8005AC2A8F0"
@@ -27,12 +26,7 @@ data = "9C0141080250320F1802104A08"
 data = File.read(ARGV[0]).chomp
 
 @bits = data.to_i(16).to_s(2)
-leading_zero_count = (@bits.length.to_f / 4).ceil * 4 - @bits.length
-@bits = '0' * leading_zero_count + @bits
-
-#                                     VVVTTTIXXXX     VVVTTTIXXXX
-# @bits = "0100010000000000010110" + "00010000110" + "00010001001"
-#          VVVTTTILLLLLLLLLLLLLLL     AAAAAAAAAAA     BBBBBBBBBBB
+@bits = @bits.rjust(data.length * 4, '0')
 
 @i = 0
 @version_sum = 0
@@ -40,9 +34,9 @@ leading_zero_count = (@bits.length.to_f / 4).ceil * 4 - @bits.length
 def decode_packet
   bits = @bits
 
-  version = bits[@i..(@i + 2)].to_i(2)
+  version = bits[@i, 3].to_i(2)
   @i += 3
-  type_id = bits[@i..(@i + 2)].to_i(2)
+  type_id = bits[@i, 3].to_i(2)
   @i += 3
 
   @version_sum += version
@@ -50,7 +44,7 @@ def decode_packet
   if type_id == 4
     literal_value = ""
     while true
-      literal_value += bits[(@i + 1)..(@i + 4)]
+      literal_value += bits[@i + 1, 4]
       break if bits[@i] == '0'
       @i += 5
     end
@@ -60,7 +54,7 @@ def decode_packet
   else
     sub_packets = []
     if bits[@i] == '0'
-      sub_packet_bit_length = bits[(@i + 1)..(@i + 15)].to_i(2)
+      sub_packet_bit_length = bits[@i + 1, 15].to_i(2)
       @i += 16
       bit_limit = @i + sub_packet_bit_length
 
@@ -68,7 +62,7 @@ def decode_packet
         sub_packets << decode_packet
       end
     else
-      subpacket_count = bits[(@i + 1)..(@i + 11)].to_i(2)
+      subpacket_count = bits[@i + 1, 11].to_i(2)
       @i += 12
 
       subpacket_count.times do
