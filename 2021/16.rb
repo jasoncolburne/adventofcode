@@ -62,10 +62,10 @@ def decode_packet
         sub_packets << decode_packet
       end
     else
-      subpacket_count = bits[@i + 1, 11].to_i(2)
+      sub_packet_count = bits[@i + 1, 11].to_i(2)
       @i += 12
 
-      subpacket_count.times do
+      sub_packet_count.times do
         sub_packets << decode_packet
       end
     end
