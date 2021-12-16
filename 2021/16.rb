@@ -27,9 +27,9 @@ data = "9C0141080250320F1802104A08"
 data = File.read(ARGV[0]).chomp
 
 @bits = data.to_i(16).to_s(2)
-while @bits.length % 4 != 0
-  @bits = '0' + @bits
-end
+leading_zero_count = (@bits.length.to_f / 4).ceil * 4 - @bits.length
+@bits = '0' * leading_zero_count + @bits
+
 #                                     VVVTTTIXXXX     VVVTTTIXXXX
 # @bits = "0100010000000000010110" + "00010000110" + "00010001001"
 #          VVVTTTILLLLLLLLLLLLLLL     AAAAAAAAAAA     BBBBBBBBBBB
