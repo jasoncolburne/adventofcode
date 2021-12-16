@@ -15,7 +15,14 @@ data = "C0015000016115A2E0802F182340"
 data = "A0016C880162017C3686B18A3D4780"
 
 data = "C200B40A82"
-data = "04005AC33890"
+data = "04005AC33890" # this one errored out
+data = "44005843089" # here is a replacement for it
+data = "880086C3E88112"
+data = "CE00C43D881120"
+data = "D8005AC2A8F0"
+data = "F600BC2D8F"
+data = "9C005AC2F8F0"
+data = "9C0141080250320F1802104A08"
 
 data = File.read(ARGV[0]).chomp
 
@@ -23,6 +30,9 @@ data = File.read(ARGV[0]).chomp
 while @bits.length % 4 != 0
   @bits = '0' + @bits
 end
+#                                     VVVTTTIXXXX     VVVTTTIXXXX
+# @bits = "0100010000000000010110" + "00010000110" + "00010001001"
+#          VVVTTTILLLLLLLLLLLLLLL     AAAAAAAAAAA     BBBBBBBBBBB
 
 @i = 0
 @version_sum = 0
@@ -87,4 +97,4 @@ end
 
 output = decode_packet
 puts @version_sum
-puts output 
+puts output
