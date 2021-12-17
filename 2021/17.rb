@@ -4,7 +4,7 @@ data = "target area: x=20..30, y=-10..-5"
 data = File.read(ARGV[0]).chomp
 
 target = data.scan(/target area: x=([^,]+), y=([^,]+)/).first.map { |range_string| eval(range_string) }
-step = -> vx, vy {
+step = -> vx, vy do
   hit, x, y, y_max = false, 0, 0, 0
   while true
     x += vx
@@ -23,7 +23,7 @@ step = -> vx, vy {
     break if x > target[0].max || y < target[1].min
   end
   [hit, x, y, y_max]
-}
+end
 
 target_hit_records = (3..50).to_a.product((-1000..1000).to_a).map { |vx, vy| step.call(vx, vy) }.select { |record| record.first }
 
