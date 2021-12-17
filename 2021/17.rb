@@ -3,9 +3,11 @@
 data = "target area: x=20..30, y=-10..-5"
 data = File.read(ARGV[0]).chomp
 
-target = data.scan(/target area: x=([^,]+), y=([^,]+)/).first.map { |range_string| eval(range_string) }
+target = data.scan(/target area: x=([-\d\.]+), y=([-\d\.]+)/).first.map { |range_string| eval(range_string) }
+
 step = -> vx, vy do
   hit, x, y, y_max = false, 0, 0, 0
+
   while true
     x += vx
     y += vy
@@ -22,6 +24,7 @@ step = -> vx, vy do
 
     break if x > target[0].max || y < target[1].min
   end
+
   [hit, x, y, y_max]
 end
 
