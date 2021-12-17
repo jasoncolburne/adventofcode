@@ -8,7 +8,7 @@ target = data.scan(/target area: x=([-\d\.]+), y=([-\d\.]+)/).first.map { |range
 step = -> vx, vy do
   hit, x, y, y_max = false, 0, 0, 0
 
-  while true
+  begin
     x += vx
     y += vy
 
@@ -21,9 +21,7 @@ step = -> vx, vy do
       hit = true
       break
     end
-
-    break if x > target[0].max || y < target[1].min
-  end
+  end until x > target[0].max || y < target[1].min
 
   [hit, x, y, y_max]
 end
