@@ -36,11 +36,11 @@ class Pair
     eval(line).to_pair
   end
 
-  def initialize(x, y, parent = nil)
+  def initialize(left, right, parent = nil)
     @parent = parent
-    @pair = [x, y]
-    x.parent = self if x.is_a? Pair
-    y.parent = self if y.is_a? Pair
+    @pair = [left, right]
+    left.parent = self if left.is_a? Pair
+    right.parent = self if right.is_a? Pair
   end
 
   def dup
