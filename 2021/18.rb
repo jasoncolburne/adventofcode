@@ -44,10 +44,7 @@ class Pair
   end
 
   def dup
-    pair = Pair.new(left.dup, right.dup)
-    pair.left.parent = pair if pair.left.is_a? Pair
-    pair.right.parent = pair if pair.right.is_a? Pair
-    pair
+    Pair.new(left.dup, right.dup)
   end
 
   def +(other)
