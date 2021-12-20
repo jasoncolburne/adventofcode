@@ -24,6 +24,23 @@ class Screen
     self
   end
 
+  def add_border(character = nil)
+    ymin = y_min - 1
+    ymax = y_max + 1
+    xmin = x_min - 1
+    xmax = x_max + 1
+
+    (ymin..ymax).each do |y|
+      @display_buffer[[xmin, y]] = character || @background
+      @display_buffer[[xmax, y]] = character || @background
+    end
+
+    ((x_min + 1)..(x_max - 1)).each do |x|
+      @display_buffer[[x, ymin]] = character || @background
+      @display_buffer[[x, ymax]] = character || @background
+    end
+  end
+
   def fill_from_text_as_integers(text)
     inputs = text.split('')
     x = 0
@@ -142,13 +159,24 @@ class Screen
     @display_buffer = new_buffer
   end
 
-  def neighbours(coordinates)
-    coordinate_set = [
+  def neighbours(coordinates, diagonal = false, include_self = false)
+    coordinate_set = Set[
       [coordinates[0] - 1, coordinates[1]],
       [coordinates[0], coordinates[1] - 1],
       [coordinates[0] + 1, coordinates[1]],
       [coordinates[0], coordinates[1] + 1],
     ]
+
+    if diagonal
+      coordinate_set |= Set[
+        [coordinates[0] - 1, coordinates[1] - 1],
+        [coordinates[0] + 1, coordinates[1] + 1],
+        [coordinates[0] + 1, coordinates[1] - 1],
+        [coordinates[0] - 1, coordinates[1] + 1],
+      ]
+    end
+
+    coordinate_set |= Set[coordinates] if include_self
 
     @display_buffer.select { |k, v| coordinate_set.include?(k) }
   end
