@@ -29,14 +29,14 @@ expanded = false
 2.times do
   graph = Jason::Math::GraphTheory::Graph.new(screen.display_buffer.keys)
   display_buffer = screen.display_buffer
-  screen.display_buffer.keys.each do |origin|
+  screen.display_buffer.each_key do |origin|
     origin.adjacent_cells.each do |destination|
       value = display_buffer[destination]
       graph.add_edge(origin, destination, value) if value
     end
   end
 
-  puts graph.dijkstra([0,0], [screen.x_max, screen.y_max])
+  puts graph.dijkstra([0, 0], [screen.x_max, screen.y_max])
 
   screen.aoc_five_by_five! unless expanded
   expanded = true
