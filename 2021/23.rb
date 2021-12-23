@@ -39,9 +39,6 @@ data = File.read(ARGV[0])
   3 => 8
 }.freeze
 
-@room_range = 0..3
-@hallway_seats = [0, 1, 3, 5, 7, 9, 10]
-
 def parse_data(data, solve_part1 = true)
   room_size, inject_part2 = if solve_part1
                               [2, false]
@@ -51,13 +48,6 @@ def parse_data(data, solve_part1 = true)
 
   home_state = [[], [], [], []]
   hallway_state = nil
-
-  @target_home_state = [
-    (['A'] * room_size).freeze,
-    (['B'] * room_size).freeze,
-    (['C'] * room_size).freeze,
-    (['D'] * room_size).freeze
-  ].freeze
 
   lines = data.chomp.split("\n")
   lines.each do |line|
@@ -76,6 +66,16 @@ def parse_data(data, solve_part1 = true)
     end
     hallway_state = Regexp.last_match(1).length.times.map { nil } if line =~ /#(\.+)#/
   end
+
+  @target_home_state = [
+    (['A'] * room_size).freeze,
+    (['B'] * room_size).freeze,
+    (['C'] * room_size).freeze,
+    (['D'] * room_size).freeze
+  ].freeze
+  @room_range = 0..3
+  @hallway_range = 0..(hallway_state.length - 1)
+  @hallway_seats = @hallway_range.to_a - @entries.values
 
   [home_state, hallway_state]
 end
