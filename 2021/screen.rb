@@ -7,16 +7,18 @@ class Screen
     @display_buffer = {}
   end
 
-  def fill_from_text(text)
+  def fill_from_text(text, ignore = '')
     inputs = text.split('')
     x = 0
     y = 0
     while (value = inputs.shift)
-      if value.chr == "\n"
+      char = value.chr
+
+      if char == "\n"
         y += 1
         x = 0
       else
-        @display_buffer[[x, y]] = value.chr
+        @display_buffer[[x, y]] = char unless ignore.include?(char)
         x += 1
       end
     end
